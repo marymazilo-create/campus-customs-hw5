@@ -1,0 +1,19 @@
+# Secrets: never commit real keys
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+dist/
+
+# Local files
+.DS_Store
+*.tmp
+*.command
+output/prompt_notes.md

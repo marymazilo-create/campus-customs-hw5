@@ -1,0 +1,8 @@
+# MGT 409 Homework 5: Campus Customs Multi-Agent Operations
+pydantic-ai-slim[openai,mcp]==2.43.0
+fastmcp>=4.1,<5
+httpx>=0.27,<1
+mcp>=1.0,<3
+python-dotenv>=1.0,<2
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1

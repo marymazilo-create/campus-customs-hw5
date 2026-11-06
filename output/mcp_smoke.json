@@ -1,0 +1,115 @@
+{
+  "title": "MCP smoke test: Campus Customs tools",
+  "vibe_coder": "Claude Code 2.1.317",
+  "connection_file": ".mcp.json",
+  "server_name": "campus-customs",
+  "database": "data/campus_customs_new.db",
+  "notes": [
+    "Claude Code loaded the server from .mcp.json and made each tool call itself. tool_output is the raw result of that call.",
+    "Claude Code ran in a cloud workspace on an exact copy of this project and database, because it is not enabled in the shell connected to the project folder. The database copy had the same SHA-256 hash as data/campus_customs_new.db.",
+    "Claude drafted the three test prompts for Mary, based on her Problem 4 request.",
+    "database_check is a separate SQL query against the database, compared with tool_output in code."
+  ],
+  "tests": [
+    {
+      "ticket": "103",
+      "prompt": "Using the campus-customs MCP server, how many CC-HOOD-NAVY hoodies in size M do we have on hand?",
+      "tool_name": "check_stock",
+      "tool_input": {
+        "sku": "CC-HOOD-NAVY",
+        "size": "M"
+      },
+      "tool_output": {
+        "found": true,
+        "sku": "CC-HOOD-NAVY",
+        "name": "Basic Hoodie Big Yale",
+        "size": "M",
+        "qty": 8,
+        "location": "Aisle A"
+      },
+      "database_check": {
+        "tables": "inventory",
+        "database_values": {
+          "sku": "CC-HOOD-NAVY",
+          "name": "Basic Hoodie Big Yale",
+          "size": "M",
+          "qty": 8,
+          "location": "Aisle A"
+        },
+        "matches": true
+      },
+      "connection_status": "connected"
+    },
+    {
+      "ticket": "101",
+      "prompt": "Using the campus-customs MCP server, does vendor 1 have any open invoices, and can that vendor ship new product right now?",
+      "tool_name": "get_open_invoices",
+      "tool_input": {
+        "vendor_id": 1
+      },
+      "tool_output": {
+        "found": true,
+        "vendor_id": 1,
+        "vendor_name": "Bulldog Print Co",
+        "open_invoices": [
+          {
+            "id": 501,
+            "amount": 840,
+            "due_date": "2026-08-28",
+            "status": "open",
+            "description": "Rush reprint CC-TEE-WHITE S"
+          }
+        ],
+        "total_open": 840,
+        "can_ship_new_product": false
+      },
+      "database_check": {
+        "tables": "invoices, vendors",
+        "database_values": {
+          "vendor_name": "Bulldog Print Co",
+          "open_invoices": [
+            {
+              "id": 501,
+              "amount": 840.0,
+              "due_date": "2026-08-28",
+              "status": "open",
+              "description": "Rush reprint CC-TEE-WHITE S"
+            }
+          ]
+        },
+        "matches": true
+      },
+      "connection_status": "connected"
+    },
+    {
+      "ticket": "102",
+      "prompt": "Using the campus-customs MCP server, what does lease 1 say about the rent: who gets paid, how much, and when is it due?",
+      "tool_name": "get_lease",
+      "tool_input": {
+        "lease_id": 1
+      },
+      "tool_output": {
+        "found": true,
+        "id": 1,
+        "space_name": "Chapel Street shop",
+        "landlord": "Elm City Properties",
+        "monthly_rent": 2400,
+        "next_due": "2026-09-02",
+        "notes": null
+      },
+      "database_check": {
+        "tables": "leases",
+        "database_values": {
+          "id": 1,
+          "space_name": "Chapel Street shop",
+          "landlord": "Elm City Properties",
+          "monthly_rent": 2400.0,
+          "next_due": "2026-09-02",
+          "notes": null
+        },
+        "matches": true
+      },
+      "connection_status": "connected"
+    }
+  ]
+}

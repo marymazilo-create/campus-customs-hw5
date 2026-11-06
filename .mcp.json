@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "campus-customs": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "--no-project", "--with", "fastmcp", "python", "mcp_server/server.py"]
+    }
+  }
+}
